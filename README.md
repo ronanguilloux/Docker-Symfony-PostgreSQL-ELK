@@ -1,4 +1,4 @@
-# Symfony-PostgreSQL
+# Symfony-PostgreSQL-ELK
 
 A complete stack for running Symfony 2 atop Nginx, PHP-FPM, PostgreSQL and ELK.
 Each of them running in containers, using `docker-compose` tool.
@@ -51,7 +51,7 @@ $ docker exec -ti $(docker ps -f name=php -q) php /var/www/symfony/app/console c
 ### How may I use Postgre's `psql` command?
 
 ```bash
-$ docker exec -ti $(docker ps -f name=postgre -q) psql -U postgres 
+$ docker exec -ti $(docker ps -f name=postgre -q) psql -U postgres
 ```
 
 ### This is sorcery, tell me how it works!?
