@@ -1,6 +1,7 @@
 # Symfony-PostgreSQL
 
-A complete stack for running Symfony, Nginx, PHP-FPM & PostgreSQL into containers, using docker-compose tool.
+A complete stack for running Symfony 2 atop Nginx, PHP-FPM, PostgreSQL and ELK.
+Each of them running in containers, using `docker-compose` tool.
 
 ## Installation
 
