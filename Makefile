@@ -6,7 +6,7 @@ DB_USER := symfony
 DB_PWD := symfony
 
 all:
-	docker build -t symfony/code code
+	docker build -t symfony/application application
 	docker build -t symfony/php-fpm php-fpm
 	docker build -t symfony/nginx nginx
 	docker build -t symfony/postgres postgres
@@ -20,7 +20,7 @@ db:
 	docker ${EXEC_LIVE} "createuser -d -s ${DB_USER}"
 	docker ${EXEC_LIVE} "createdb  -T template0 -E UTF8 -O ${DB_USER} ${DB_NAME}"
 	docker ${EXEC_LIVE} "psql -c \"GRANT ALL PRIVILEGES ON DATABASE ${DB_NAME} to ${DB_USER};\""
-	docker ${EXEC_LIVE} "psql -c \"ALTER USER ${DBNAME} PASSWORD '${DB_PWD}';\"";
+	docker ${EXEC_LIVE} "psql -c \"ALTER USER ${DB_USER} PASSWORD '${DB_PWD}';\"";
 	
 	#PRO MEMORIA: install previous dump: 
 	# docker ${EXEC_LIVE} "psql -d ${DB_NAME} -f \/var\/www\/symfony\/doc\/postgresql\/dump.sql";
