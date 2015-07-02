@@ -32,7 +32,11 @@ This command run docker-compose and output your working IP (useful to any OS X +
 
 You are done, you can now visit your Symfony application on the following URL: [http://symfony.dev](http://symfony.dev)
 
-You can also access Kibana on [http://symfony.dev:81](http://symfony.dev:81)
+
+## Use Kibana!
+
+You can access ElasticSearch's [Kibana](https://www.elastic.co/products/kibana) to visualize Nginx & Symfony logs by visiting [http://symfony.dev:81](http://symfony.dev:81).
+
 
 ## FAQ
 
@@ -77,7 +81,7 @@ $ docker-compose ps
         docker_postgres_1      /docker-entrypoint.sh postgres   Up      0.0.0.0:5432->5432/tcp
 ```
 
-## How to build my Docker images separately?
+### How to build my Docker images separately?
 
 ```bash
 $ docker build -t symfony/application application
@@ -86,16 +90,12 @@ $ docker build -t symfony/nginx nginx
 $ docker build -t symfony/postgres postgres
 ```
 
-## How may I read my logs?
+### How may I read my logs?
 
 You can access Nginx and Symfony application logs in the following directories into your host machine:
 
 * `logs/nginx`
 * `logs/symfony`
-
-## Use Kibana!
-
-You can also use Kibana to visualize Nginx & Symfony logs by visiting `http://symfony.dev:81`.
 
 ### I have a RAM issue using `composer`
 
