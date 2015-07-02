@@ -1,0 +1,43 @@
+application:
+    image: symfony/application
+    volumes:
+        - symfony/:/var/www/symfony
+        - logs/symfony:/var/www/symfony/app/logs
+    tty: true
+php:
+    image: symfony/php-fpm
+    expose:
+        - 9000:9000
+    volumes_from:
+        - application
+    links:
+        - postgres
+nginx:
+    image: symfony/nginx
+    ports:
+        - 80:80
+    links:
+        - php
+    volumes_from:
+        - application
+    volumes:
+        - logs/nginx/:/var/log/nginx
+elk:
+    image: willdurand/elk
+    ports:
+        - 81:80
+    volumes:
+        - elk/logstash:/etc/logstash
+        - elk/logstash/patterns:/opt/logstash/patterns
+    volumes_from:
+        - application
+        - php
+        - nginx
+postgres:
+    image: postgres
+    volumes_from:
+        - application
+    volumes:
+        - logs/postgresql/:/var/log/postgresql
+    ports:
+        - 5432:5432
