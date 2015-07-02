@@ -28,9 +28,9 @@ db:
 run:
 	docker-compose up -d
 ifdef B2DEXISTS
-	@echo "Website is running on `boot2docker ip`";
+	@echo "Website and Postgresql are running on `boot2docker ip`";
 else
-	@echo "Website is running on 127.0.0.1";
+	@echo "Website and Postgresql are running";
 endif
 
 stop:

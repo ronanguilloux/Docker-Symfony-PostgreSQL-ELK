@@ -12,28 +12,50 @@ $ git clone git@github.com:ronanguilloux/docker-symfony.git
 
 Next, put your Symfony application into `symfony` folder and do not forget to add `symfony.dev` in your `/etc/hosts` file.
 
-Then, run:
+Then, at first launch, just type:
 
 ```bash
 $ make
-$ make install # to initialize an empty `symfony` db
+$ make install
+```
+
+This command run `docker build` (docker images setup), `docker-compose up`, then initialize (empty) `symfony` postgresql db using `psql`.
+
+Next time, since your images are already built, you'll just have to type:
+
+```bash
 $ make run
 ```
 
-You are done, you can visite your Symfony application on the following URL: `http://symfony.dev` (and access Kibana on `http://symfony.dev:81`)
+This command run docker-compose and output your working IP (useful to any OS X + `boot2docker` users).
 
-Optionally, you can build your Docker images separately by running:
+You are done, you can now visit your Symfony application on the following URL: [http://symfony.dev](http://symfony.dev)
+
+You can also access Kibana on [http://symfony.dev:81](http://symfony.dev:81)
+
+## FAQ
+
+### How may I use `composer` command
 
 ```bash
-$ docker build -t symfony/application application
-$ docker build -t symfony/php-fpm php-fpm
-$ docker build -t symfony/nginx nginx
-$ docker build -t symfony/postgres postgres
+$ docker exec -ti $(docker ps -f name=php -q) composer
 ```
 
-## How it works?
+### How may I use Symfony's  `php app/console` command?
 
-Here are the `docker-compose` built images:
+```bash
+$ docker exec -ti $(docker ps -f name=php -q) php /var/www/symfony/app/console cache:clear
+```
+
+### How may I use Postgre's `psql` command?
+
+```bash
+$ docker exec -ti $(docker ps -f name=postgre -q) psql -U postgres 
+```
+
+### This is sorcery, tell me how it works!?
+
+Have a look at the `docker-compose.yml` file, here are the `docker-compose` built images:
 
 * `application`: This is the Symfony application code container,
 * `postgres`: This is the PostgreSQL database container,
@@ -44,16 +66,26 @@ Here are the `docker-compose` built images:
 This results in the following running containers:
 
 ```bash
-> $ docker-compose ps
+$ docker-compose ps
         Name                      Command               State              Ports
         -------------------------------------------------------------------------------------------
         docker_application_1   /bin/bash                        Up
         docker_elk_1           /usr/bin/supervisord -n -c ...   Up      0.0.0.0:81->80/tcp
         docker_nginx_1         nginx                            Up      443/tcp, 0.0.0.0:80->80/tcp
         docker_php_1           php5-fpm -F                      Up      9000/tcp
+        docker_postgres_1      /docker-entrypoint.sh postgres   Up      0.0.0.0:5432->5432/tcp
 ```
 
-## Read logs
+## How to build my Docker images separately?
+
+```bash
+$ docker build -t symfony/application application
+$ docker build -t symfony/php-fpm php-fpm
+$ docker build -t symfony/nginx nginx
+$ docker build -t symfony/postgres postgres
+```
+
+## How may I read my logs?
 
 You can access Nginx and Symfony application logs in the following directories into your host machine:
 
@@ -64,14 +96,12 @@ You can access Nginx and Symfony application logs in the following directories i
 
 You can also use Kibana to visualize Nginx & Symfony logs by visiting `http://symfony.dev:81`.
 
-## FAQ
-
-### "I have a RAM issue"
+### I have a RAM issue using `composer`
 
 PHP's package manager, `composer`, internally increases the memory_limit to 1G. To get the current memory_limit value, run:
 
 ```bash
-php -r "echo ini_get('memory_limit').PHP_EOL;"
+$ docker exec -ti $(docker ps -f name=php -q) php -r "echo ini_get('memory_limit').PHP_EOL;"
 ```
 
 ## License, Copyright & Contributeurs
