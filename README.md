@@ -8,7 +8,7 @@ Each of them running in containers, using `docker-compose` tool.
 First, clone this repository:
 
 ```bash
-$ git clone git@github.com:ronanguilloux/docker-symfony.git
+$ git clone git@github.com:ronanguilloux/Docker-Symfony-PostgreSQL-ELK.git
 ```
 
 Next, put your Symfony application into `symfony` folder and do not forget to add `symfony.dev` in your `/etc/hosts` file.
