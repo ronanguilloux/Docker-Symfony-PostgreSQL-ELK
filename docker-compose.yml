@@ -7,7 +7,7 @@ application:
 php:
     image: symfony/php-fpm
     expose:
-        - 9000:9000
+        - 9000
     volumes_from:
         - application
     links:
